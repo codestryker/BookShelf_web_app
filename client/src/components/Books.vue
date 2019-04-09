@@ -119,138 +119,140 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Alert from './Alert';
+import axios from 'axios'
+import Alert from './Alert'
 export default {
-  data() {
+  data(){
     return {
       books: [],
       addBookForm: {
         title: '',
         author: '',
-        read: [],
+        read: []
       },
       editForm: {
-      id: '',
-      title: '',
-      author: '',
-      read: [],
+        id: '',
+        title: '',
+        author: '',
+        read: []
       },
       message: '',
-       showMessage: false,
-    };
+        showMessage: false
+    }
   },
    components: {
-    alert: Alert,
+     alert: Alert
   },
   methods: {
-    getBooks() {
-      const path = 'http://localhost:5000/books';
+    getBooks(){
+      const path = 'http://localhost:5000/books'
       axios.get(path)
         .then((res) => {
-          this.books = res.data.books;
+          this.books = res.data.books
         })
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error);
-        });
+        })
     },
-    onSubmitUpdate(evt) {
-      evt.preventDefault();
-      this.$refs.editBookModal.hide();
-      let read = false;
-      if (this.editForm.read[0]) read = true;
+    onSubmitUpdate( evt){
+      evt.preventDefault()
+      this.$refs.editBookModal.hide()
+      let read = false
+      if (this.editForm.read[0]) read = true
       const payload = {
-      title: this.editForm.title,
-      author: this.editForm.author,
-      read,
-      };
-      this.updateBook(payload, this.editForm.id);
+         title: this.editForm.title,
+         author: this.editForm.author,
+         read
+      }
+      this.updateBook(payload, this.editForm.id)
    },
-   updateBook(payload, bookID) {
-      const path = `http://localhost:5000/books/${bookID}`;
+
+    updateBook( payload, bookID) {
+      const path = `http://localhost:5000/books/${bookID}`
       axios.put(path, payload)
-      .then(() => {
-      this.getBooks();
-      this.message = 'Book updated!';
-      this.showMessage = true;
+        .then(() => {
+        this.getBooks()
+        this.message = 'Book updated!'
+        this.showMessage = true
     })
+
     .catch((error) => {
       // eslint-disable-next-line
-      console.error(error);
-      this.getBooks();
-    });
+        console.error(error)
+        this.getBooks()
+    })
     },
-    onResetUpdate(evt) {
-      evt.preventDefault();
-      this.$refs.editBookModal.hide();
-      this.initForm();
-      this.getBooks(); // why?
+    onResetUpdate( evt) {
+      evt.preventDefault()
+      this.$refs.editBookModal.hide()
+      this.initForm()
+      this.getBooks() // why?
      },
-    editBook(book) {
-      this.editForm = book;
+    editBook( book) {
+      this.editForm = book
      },
-    addBook(payload) {
-      const path = 'http://localhost:5000/books';
-      axios.post(path, payload)
+    addBook( payload) {
+       const path = 'http://localhost:5000/books'
+       axios.post(path, payload)
         .then(() => {
-          this.getBooks();
-          this.message = 'Book added!';
-          this.showMessage = true;
+          this.getBooks()
+          this.message = 'Book added!'
+          this.showMessage = true
         })
         .catch((error) => {
           // eslint-disable-next-line
           console.log(error);
-          this.getBooks();
-        });
+          this.getBooks()
+        })
     },
-    removeBook(bookID) {
-      const path = `http://localhost:5000/books/${bookID}`;
+    removeBook( bookID) {
+      const path = `http://localhost:5000/books/${bookID}`
       axios.delete(path)
-      .then(() => {
-      this.getBooks();
-      this.message = 'Book removed!';
-      this.showMessage = true;
+       .then(() => {
+       this.getBooks()
+       this.message = 'Book removed!'
+       this.showMessage = true
       })
      .catch((error) => {
       // eslint-disable-next-line
       console.error(error);
-      this.getBooks();
-      });
+      this.getBooks()
+      })
      },
-     onDeleteBook(book) {
-     this.removeBook(book.id);
+     onDeleteBook( book) {
+       this.removeBook(book.id)
      },
-    initForm() {
-     this.addBookForm.title = '';
-     this.addBookForm.author = '';
-     this.addBookForm.read = [];
-     this.editForm.id = '';
-     this.editForm.title = '';
-     this.editForm.author = '';
-     this.editForm.read = [];
+    initForm( ) {
+       this.addBookForm.title = ''
+       this.addBookForm.author = ''
+       this.addBookForm.read = []
+       this.editForm.id = ''
+       this.editForm.title = ''
+       this.editForm.author = ''
+       this.editForm.read = []
     },
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.$refs.addBookModal.hide();
-      let read = false;
-      if (this.addBookForm.read[0]) read = true;
+    onSubmit( evt) {
+      evt.preventDefault()
+      this.$refs.addBookModal.hide()
+      let read = false
+      if (this.addBookForm.read[0]) read = true
       const payload = {
         title: this.addBookForm.title,
         author: this.addBookForm.author,
-        read, // property shorthand
-      };
-      this.addBook(payload);
-      this.initForm();
+        read // property shorthand
+      }
+      this.addBook(payload)
+      this.initForm()
     },
-    onReset(evt) {
-      evt.preventDefault();
-      this.$refs.addBookModal.hide();
-      this.initForm();
-    },
+    onReset( evt) {
+      evt.preventDefault()
+      this.$refs.addBookModal.hide()
+      this.initForm()
+    }
   },
-  created() {
-    this.getBooks();
-  },
-};
+  created( ) {
+    this.getBooks()
+  }
+}
 </script>
