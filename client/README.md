@@ -20,5 +20,3 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-Frontend will serve at localhost:8080 and no need to run backend flask it will run on proxy server localhost:5000
-only deployment on heroku is left
